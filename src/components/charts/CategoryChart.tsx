@@ -43,7 +43,7 @@ export function CategoryChart({ data, categories }: CategoryChartProps) {
               fontSize: 13,
               color: 'hsl(var(--popover-foreground))',
             }}
-            formatter={(value: number) => formatCurrency(value)}
+            formatter={(value) => formatCurrency(Number(value))}
           />
         </PieChart>
       </ResponsiveContainer>

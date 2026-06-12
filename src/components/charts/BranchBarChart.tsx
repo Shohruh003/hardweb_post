@@ -41,7 +41,7 @@ export function BranchBarChart({ data }: { data: BranchBar[] }) {
             fontSize: 13,
             color: 'hsl(var(--popover-foreground))',
           }}
-          formatter={(value: number) => formatCurrency(value)}
+          formatter={(value) => formatCurrency(Number(value))}
         />
         <Bar dataKey="revenue" fill="#3b82f6" radius={[6, 6, 0, 0]} maxBarSize={56} />
       </BarChart>

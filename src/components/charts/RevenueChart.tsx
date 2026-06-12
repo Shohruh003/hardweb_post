@@ -52,8 +52,8 @@ export function RevenueChart({ data }: { data: DailyPoint[] }) {
             fontSize: 13,
             color: 'hsl(var(--popover-foreground))',
           }}
-          formatter={(value: number, name) => [
-            formatCurrency(value),
+          formatter={(value, name) => [
+            formatCurrency(Number(value)),
             name === 'revenue' ? t('kpi.revenue') : t('kpi.profit'),
           ]}
         />

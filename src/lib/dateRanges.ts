@@ -9,6 +9,7 @@ export type PresetKey =
   | 'lastMonth'
   | 'last90'
   | 'all'
+  | 'custom'
 
 export function presetRange(key: PresetKey): DateRange {
   const now = new Date()
