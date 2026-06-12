@@ -25,6 +25,9 @@ interface DataContextValue {
   scopedSales: Sale[]
 
   // mutations
+  addCategory: (c: Category) => void
+  updateCategory: (c: Category) => void
+  deleteCategory: (id: string) => void
   addProduct: (p: Product) => void
   updateProduct: (p: Product) => void
   deleteProduct: (id: string) => void
@@ -38,7 +41,7 @@ const DataContext = createContext<DataContextValue | undefined>(undefined)
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const [branches, setBranches] = useState<Branch[]>(seedBranches)
-  const [categories] = useState<Category[]>(seedCategories)
+  const [categories, setCategories] = useState<Category[]>(seedCategories)
   const [products, setProducts] = useState<Product[]>(seedProducts)
   const [sales, setSales] = useState<Sale[]>(seedSales)
   const [currentBranch, setCurrentBranch] = useState<BranchFilter>('all')
@@ -61,6 +64,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
     setCurrentBranch,
     scopedProducts,
     scopedSales,
+    addCategory: (c) => setCategories((prev) => [...prev, c]),
+    updateCategory: (c) => setCategories((prev) => prev.map((x) => (x.id === c.id ? c : x))),
+    deleteCategory: (id) => setCategories((prev) => prev.filter((x) => x.id !== id)),
     addProduct: (p) => setProducts((prev) => [p, ...prev]),
     updateProduct: (p) => setProducts((prev) => prev.map((x) => (x.id === p.id ? p : x))),
     deleteProduct: (id) => setProducts((prev) => prev.filter((x) => x.id !== id)),

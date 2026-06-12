@@ -50,10 +50,11 @@ const sections: NavSection[] = [
 
 interface SidebarProps {
   open: boolean
+  collapsed: boolean
   onClose: () => void
 }
 
-export function Sidebar({ open, onClose }: SidebarProps) {
+export function Sidebar({ open, collapsed, onClose }: SidebarProps) {
   const { t } = useTranslation()
 
   return (
@@ -69,34 +70,45 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-sidebar text-sidebar-foreground transition-transform duration-300 lg:static lg:translate-x-0',
-          open ? 'translate-x-0' : '-translate-x-full'
+          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[width,transform] duration-300 lg:static lg:translate-x-0',
+          open ? 'translate-x-0' : '-translate-x-full',
+          collapsed ? 'lg:w-20' : 'lg:w-64'
         )}
       >
         {/* Brand */}
-        <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-5">
+        <div
+          className={cn(
+            'flex h-16 items-center border-b border-sidebar-border',
+            collapsed ? 'justify-center px-2 lg:justify-center' : 'justify-between px-5'
+          )}
+        >
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sidebar-accent text-white">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-white">
               <Boxes className="h-5 w-5" />
             </div>
-            <div className="leading-tight">
+            <div className={cn('leading-tight', collapsed && 'lg:hidden')}>
               <p className="text-sm font-bold">HardWeb</p>
               <p className="text-[11px] text-sidebar-foreground/60">POS System</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="rounded-md p-1 text-sidebar-foreground/70 hover:bg-white/10 lg:hidden"
+            className="rounded-md p-1 text-sidebar-foreground/70 hover:bg-sidebar-accent/10 lg:hidden"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
+        <nav className={cn('flex-1 space-y-6 overflow-y-auto py-5', collapsed ? 'px-2' : 'px-3')}>
           {sections.map((section) => (
             <div key={section.title}>
-              <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-sidebar-foreground/40">
+              <p
+                className={cn(
+                  'px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-sidebar-foreground/40',
+                  collapsed && 'lg:hidden'
+                )}
+              >
                 {t(section.title)}
               </p>
               <div className="space-y-1">
@@ -106,31 +118,25 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                     to={item.to}
                     end={item.to === '/'}
                     onClick={onClose}
+                    title={t(item.label)}
                     className={({ isActive }) =>
                       cn(
-                        'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                        'flex items-center gap-3 rounded-lg py-2.5 text-sm font-medium transition-colors',
+                        collapsed ? 'lg:justify-center lg:px-0 px-3' : 'px-3',
                         isActive
                           ? 'bg-sidebar-accent text-white shadow-sm'
-                          : 'text-sidebar-foreground/70 hover:bg-white/5 hover:text-sidebar-foreground'
+                          : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/10 hover:text-sidebar-foreground'
                       )
                     }
                   >
-                    <item.icon className="h-[18px] w-[18px]" />
-                    {t(item.label)}
+                    <item.icon className="h-[18px] w-[18px] shrink-0" />
+                    <span className={cn(collapsed && 'lg:hidden')}>{t(item.label)}</span>
                   </NavLink>
                 ))}
               </div>
             </div>
           ))}
         </nav>
-
-        {/* Footer */}
-        <div className="border-t border-sidebar-border p-4">
-          <div className="rounded-lg bg-white/5 p-3 text-xs text-sidebar-foreground/60">
-            <p className="font-semibold text-sidebar-foreground/80">Demo versiya</p>
-            <p className="mt-0.5">Frontend · mock data</p>
-          </div>
-        </div>
       </aside>
     </>
   )

@@ -1,0 +1,47 @@
+import {
+  CupSoda,
+  Candy,
+  Croissant,
+  Milk,
+  Wheat,
+  SprayCan,
+  Sparkles,
+  Package,
+  Apple,
+  Beef,
+  Fish,
+  Carrot,
+  Cigarette,
+  Pizza,
+  type LucideIcon,
+} from 'lucide-react'
+
+export const categoryIcons: Record<string, LucideIcon> = {
+  CupSoda,
+  Candy,
+  Croissant,
+  Milk,
+  Wheat,
+  SprayCan,
+  Sparkles,
+  Package,
+  Apple,
+  Beef,
+  Fish,
+  Carrot,
+  Cigarette,
+  Pizza,
+}
+
+export const categoryPalette = [
+  '#3b82f6',
+  '#ec4899',
+  '#f59e0b',
+  '#06b6d4',
+  '#84cc16',
+  '#8b5cf6',
+  '#14b8a6',
+  '#ef4444',
+  '#f97316',
+  '#10b981',
+]

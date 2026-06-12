@@ -1,4 +1,4 @@
-import { Menu, Bell } from 'lucide-react'
+import { Menu, Bell, PanelLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { BranchSwitcher } from '@/components/shared/BranchSwitcher'
@@ -7,13 +7,23 @@ import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher'
 
 interface HeaderProps {
   onMenuClick: () => void
+  onToggleCollapse: () => void
 }
 
-export function Header({ onMenuClick }: HeaderProps) {
+export function Header({ onMenuClick, onToggleCollapse }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-border bg-background/80 px-4 backdrop-blur-md sm:px-6">
       <Button variant="ghost" size="icon-sm" className="lg:hidden" onClick={onMenuClick}>
         <Menu className="h-5 w-5" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        className="hidden lg:inline-flex"
+        onClick={onToggleCollapse}
+        aria-label="Toggle sidebar"
+      >
+        <PanelLeft className="h-5 w-5" />
       </Button>
 
       <BranchSwitcher />
