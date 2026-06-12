@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# HardWeb POS — Do'kon boshqaruv tizimi
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Do'kon egasi uchun **POS (kassa) + Admin panel** tizimi. Mahsulotlar, sotuvlar, omborni nazorat qilish, sana bo'yicha hisobotlar va ko'p filialli (multi-branch) boshqaruv.
 
-Currently, two official plugins are available:
+> ⚙️ Hozircha **faqat frontend + mock data** (prezentatsiya uchun). Backend keyinroq qo'shiladi.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Imkoniyatlar
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 📊 **Dashboard** — tushum, foyda, sotuvlar soni, sotilgan mahsulotlar KPI'lari (o'tgan davrga nisbatan o'zgarish bilan), grafiklar
+- 🧾 **POS (Kassa)** — mahsulot tanlash, savatcha, chegirma, to'lov usuli, sotuvni yakunlash (qoldiq avtomatik kamayadi)
+- 📦 **Mahsulotlar** — ro'yxat, qidiruv, kategoriya/holat filtri, qoldiq nazorati, qo'shish/tahrirlash/o'chirish
+- 🧮 **Sotuvlar tarixi** — sana oralig'i filtri, to'lov filtri, chek (receipt) ko'rinishi
+- 🏪 **Filiallar** — ko'p filialli boshqaruv, yangi filial qo'shish (masshtablanadi)
+- 🗂 **Kategoriyalar** — har bir kategoriya bo'yicha mahsulot soni va tushum
+- 📈 **Hisobotlar** — kengaytirilgan analitika + CSV eksport
+- 🎨 **2 ta mavzu** — yorug' / qorong'i (light/dark)
+- 🌐 **4 til** — O'zbek lotin, O'zbek krill, Rus, Ingliz
+- 📅 **Sana filtrlari** — bugun, kecha, 7/30/90 kun, oy, maxsus oraliq (dan–gacha)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠 Texnologiyalar
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Qatlam | Texnologiya |
+|--------|-------------|
+| Build | Vite |
+| Til | TypeScript |
+| UI | React 19 |
+| Styling | Tailwind CSS + shadcn/ui (Radix) |
+| Grafiklar | Recharts |
+| Routing | React Router |
+| Ikonkalar | Lucide React |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🚀 Ishga tushirish
+
+```bash
+npm install      # bog'liqliklarni o'rnatish
+npm run dev      # dev server (http://localhost:5173)
+npm run build    # production build
+npm run preview  # build natijasini ko'rish
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📁 Struktura
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── components/
+│   ├── ui/         # shadcn/ui primitivlari (button, card, dialog, ...)
+│   ├── layout/     # Sidebar, Header, Layout
+│   ├── shared/     # StatCard, DateRangeFilter, switcherlar, ...
+│   ├── charts/     # Recharts grafiklari
+│   ├── products/   # ProductDialog
+│   ├── branches/   # BranchDialog
+│   └── sales/      # ReceiptDialog
+├── contexts/       # Theme, Language, Data (markaziy holat)
+├── data/           # mock data (branches, categories, products, sales)
+├── i18n/           # 4 til tarjimalari
+├── lib/            # analytics, dateRanges, utils
+├── hooks/          # useDateRange
+├── pages/          # Dashboard, POS, Products, Sales, Categories, Branches, Reports, Settings
+└── types/          # TypeScript tiplari
+```
+
+---
+
+## 🔮 Keyingi bosqich (backend)
+
+Markaziy `DataContext` API'ga ulanishga tayyor: REST/GraphQL + React Query qo'shilsa, mock datalar real backend bilan almashtiriladi.

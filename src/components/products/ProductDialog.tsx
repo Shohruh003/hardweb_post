@@ -19,6 +19,7 @@ import {
 import { useData } from '@/contexts/DataContext'
 import { useTranslation } from '@/contexts/LanguageContext'
 import type { Product } from '@/types'
+import { genId, nowIso } from '@/lib/utils'
 
 interface ProductDialogProps {
   open: boolean
@@ -86,10 +87,11 @@ export function ProductDialog({ open, onOpenChange, product }: ProductDialogProp
         unit: form.unit,
       })
     } else {
+      const id = genId('pr-new')
       addProduct({
-        id: `pr-new-${Date.now()}`,
+        id,
         name: form.name,
-        sku: form.sku || `SKU-${Date.now().toString().slice(-6)}`,
+        sku: form.sku || `SKU-${id.slice(-6).toUpperCase()}`,
         categoryId: form.categoryId,
         branchId: form.branchId,
         costPrice: Number(form.costPrice) || 0,
@@ -99,7 +101,7 @@ export function ProductDialog({ open, onOpenChange, product }: ProductDialogProp
         sold: 0,
         unit: form.unit,
         lowStockThreshold: Number(form.lowStockThreshold) || 0,
-        createdAt: new Date().toISOString(),
+        createdAt: nowIso(),
       })
     }
     onOpenChange(false)

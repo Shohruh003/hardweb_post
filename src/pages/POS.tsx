@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/select'
 import { useData } from '@/contexts/DataContext'
 import { useTranslation } from '@/contexts/LanguageContext'
-import { formatCurrency } from '@/lib/utils'
+import { formatCurrency, genId, genReceiptNo, nowIso } from '@/lib/utils'
 import type { PaymentMethod, Product, Sale, SaleItem } from '@/types'
 
 interface CartLine {
@@ -101,8 +101,8 @@ export function POS() {
     }))
     const cost = cart.reduce((acc, l) => acc + l.product.costPrice * l.qty, 0)
     const sale: Sale = {
-      id: `sale-new-${Date.now()}`,
-      receiptNo: `#${Math.floor(Date.now() / 1000) % 100000}`,
+      id: genId('sale-new'),
+      receiptNo: genReceiptNo(),
       branchId: saleBranch,
       items,
       subtotal,
@@ -111,7 +111,7 @@ export function POS() {
       profit: total - cost,
       paymentMethod: payment,
       cashier: 'Shohruh A.',
-      createdAt: new Date().toISOString(),
+      createdAt: nowIso(),
     }
     recordSale(sale)
     setCart([])

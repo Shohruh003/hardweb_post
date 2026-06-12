@@ -11,8 +11,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useData } from '@/contexts/DataContext'
 import { useTranslation } from '@/contexts/LanguageContext'
-import { toInputValue } from '@/lib/dateRanges'
 import type { Branch } from '@/types'
+import { genId, todayIso } from '@/lib/utils'
 
 interface BranchDialogProps {
   open: boolean
@@ -37,7 +37,7 @@ export function BranchDialog({ open, onOpenChange, branch }: BranchDialogProps) 
         openedAt: branch.openedAt.slice(0, 10),
       })
     } else {
-      setForm({ ...empty, openedAt: toInputValue(new Date()) })
+      setForm({ ...empty, openedAt: todayIso() })
     }
   }, [branch, open])
 
@@ -48,9 +48,9 @@ export function BranchDialog({ open, onOpenChange, branch }: BranchDialogProps) 
       updateBranch({ ...branch, ...form })
     } else {
       addBranch({
-        id: `br-new-${Date.now()}`,
+        id: genId('br-new'),
         ...form,
-        openedAt: form.openedAt || new Date().toISOString().slice(0, 10),
+        openedAt: form.openedAt || todayIso(),
         isActive: true,
       })
     }
